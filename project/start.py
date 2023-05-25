@@ -3,80 +3,10 @@ import pandas as pd
 import numpy as np
 
 
-class BackGroundCorrectingSettings():
-    bool_calculate_automaticly = False  #set to true to calculate the non-peak intervals automaticly
-    non_peak_intervals = [[0,2],[54,66]]
-    
-
-# initialise a setter
-bgcs = BackGroundCorrectingSettings()
 
 
-class IonData(): #class build around one Ion readout from an experiment
-    _name = ""  #string that hold the name of the ion, as outputted by massaspectrometer, for example: [63Cu]+
-    _seriesIon = None  #pandas series holding the numbers of ions per extraction (same as CSV output of massaspectrometer)
-    _seriesCPS = None  #pandas series that facors in extraction rate. seriesIon *(1000000/46)(number of of ions per extraction multiplied by 1 extraction per 46 microseconds). 
-    _seriesCorrectedBackground = None  #seriesCPS where the background (= average of non-peak-areas) is filtered out. = seriesCPS - average value of non-peak range(s)
-    _integratedPeakSignal1 = None  #integrated signal of the first peak (sum of values from seriesCorrectedBackground)
-    _integreatedPeakSignal2 = None #integrated signal of the second peak (sum of values from seriesCorrectedBackground)
-    _totalIntegratedSignal = None  # sum of IntegratedPeakSignals
-    bgcs = BackGroundCorrectingSettings()
-    
-    @property
-    def name(self):
-        return self._name  
 
-    @name.setter
-    def name(self, value):
-        self._name = value
 
-    @property
-    def seriesIon(self):
-        return self._seriesIon
-
-    @seriesIon.setter
-    def seriesIon(self, value):
-        self._seriesIon = value
-
-    @property
-    def seriesCPS(self):
-        return self._seriesCPS
-
-    @seriesCPS.setter
-    def seriesCPS(self, value):
-        self._seriesCPS = value
-
-    @property
-    def seriesCorrectedBackground(self):
-        return self._seriesCorrectedBackground
-
-    @seriesCorrectedBackground.setter
-    def seriesCorrectedBackground(self, value):
-        self._seriesCorrectedBackground = value
-
-    @property
-    def integratedPeakSignal1(self):
-        return self._integratedPeakSignal1
-    
-    @integratedPeakSignal1.setter
-    def integratedPeakSignal1(self, value):
-        self._integratedPeakSignal1 = value
-
-    @property
-    def integratedPeakSignal2(self):
-        return self._integratedPeakSignal2
-    
-    @integratedPeakSignal2.setter
-    def integratedPeakSignal2(self, value):
-        self._integratedPeakSignal2 = value
-
-    @property
-    def totalIntegratedSignal(self):
-        return self._totalIntegratedSignal
-    
-    @totalIntegratedSignal.setter
-    def totalIntegratedSignal(self, value):
-        self._totalIntegratedSignal = value
     
 
 class ExperimentData(): #class build around the total (all of the ions) readout from an experiment
@@ -246,17 +176,7 @@ def getSeriesCorrectedForBackground(pandaseries, settings):
 
 #series_corrected = getSeriesCorrectedForBackground(series, BackGroundCorrectingSettings)
 
-class TSV_Standard_Parser():
-    _fileLocation = None  #string holding the filelocation of the CSV file
-    _skiprows = 7  # integer value marking where which line the data starts in the file
-    def get_datasource(self):
-        
-        #file_content = open('../input/test1.txt',"r")
-        #print(file_content.getlines())
-        
-        with open('../input/test1.txt') as f:
-            lines = f.readlines()
-            print(lines[1])
+
 
 
 
@@ -271,20 +191,25 @@ import os
 list_files = os.listdir("C:/Users/wimva/Documents/GitHub/eindproef_data-analyse/project")
 print(list_files)
 """
+class FilenameParser():
+    #parse properties (stringvalues) from filename
+    _index_timestamp = 0
+    _index_gelatinName = 1
+    _string_filename = "C:/Users/wimva/Documents/GitHub/eindproef_data-analyse/project/15h25m19s_Gel1_Eseries_4mJ_20micron.h5__SegmentProfiles_Average" #DEVELOPMENT REMOVE LATER
+    __list_string_filename_split = _string_filename.split("/")
+    #get the last element from that list
+    __string_filename = __list_string_filename_split[len(__list_string_filename_split)-1]
+    print(__string_filename)
+    __list_filename_split = __string_filename.split("_")
+    print(__list_filename_split)
+    #set index values for each property (the location of those strings in list_filename_split)
 
-#parse properties (stringvalues) from filename
-string_filename = "C:/Users/wimva/Documents/GitHub/eindproef_data-analyse/project/15h25m19s_Gel1_Eseries_4mJ_20micron.h5__SegmentProfiles_Average" #DEVELOPMENT REMOVE LATER
-list_string_filename_split = string_filename.split("/")
-#get the last element from that list
-string_filename = list_string_filename_split[len(list_string_filename_split)-1]
-print(string_filename)
-list_filename_split = string_filename.split("_")
-print(list_filename_split)
-#set index values for each property (the location of those strings in list_filename_split)
-index_timestamp = 0
-index_gelatinName = 1
 
 
+
+#DEBUG REMOVE LATER
+if __name__ == "__main__":
+    fp = FilenameParser()
 
 
 
