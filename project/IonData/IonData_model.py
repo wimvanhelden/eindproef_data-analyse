@@ -1,5 +1,5 @@
 
-from BackgroundCorrectingSettings import BackGroundCorrectingSettings
+from .BackgroundCorrectingSettings import BackGroundCorrectingSettings
 
 class IonData(): #class build around one Ion readout from an experiment
     _name = ""  #string that hold the name of the ion, as outputted by massaspectrometer, for example: [63Cu]+

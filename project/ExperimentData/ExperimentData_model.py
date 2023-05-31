@@ -1,8 +1,8 @@
-from FilenameParser import FilenameParser
+from .FilenameParser import FilenameParser
 
 
 class ExperimentData(): #class build around the total (all of the ions) readout from an experiment
-    _listIonData = []  #list holding all the IonData's for this experiment
+    _listIonData = []  #list holding all the IonData's (pandas series) for this experiment
     _seriesTimeValues = None #pandas series holding the time values (interval values) for an experiment
     _extractionRate = 1000000/46 #rate of 1 extraction per 46 microseconds
     _tubeLenght = None #length of the tube connecting laser and massaspectrometer, in cm. for example: 90cm
@@ -12,7 +12,7 @@ class ExperimentData(): #class build around the total (all of the ions) readout 
     _gelatinName = None  #string value containing info about which gelatin is used in the experiment
     _dataSource = None  #string holding the data source (filename+location) mentioned IN the CSV file (!= actual file location)
     _timestamp = None  #string holding timestamp of when the experiment happened. Normaly parsed from filename of experiment result txt
-
+    fnp = FilenameParser()
 
 
 
@@ -97,22 +97,24 @@ class ExperimentData(): #class build around the total (all of the ions) readout 
         self._timestamp = value
 
     def parse_from_filename(self, filename):
-        fnp = FilenameParser(filename)
-        self.timestamp =fnp.give_timestamp()
-        self.gelatinName = fnp.give_gelatinname()
-        self.fluency = fnp.give_fluency()
-        self.laserSpotDiameter = fnp.give_laser_spot_diameter()
+        
+        self.fnp.filename = filename 
+        self.timestamp = self.fnp.give_timestamp()
+        self.gelatinName = self.fnp.give_gelatinname()
+        self.fluency = self.fnp.give_fluency()
+        self.laserSpotDiameter = self.fnp.give_laser_spot_diameter()
 
 
 #DEBUG REMOVE LATER
 if __name__ == "__main__":
     ed = ExperimentData()
-    filename = file_location = "C:/Users/wimva/Documents/GitHub/eindproef_data-analyse/project/15h25m19s_Gel1_Eseries_4mJ_20micron.h5__SegmentProfiles_Average"
+    filename = "C:/Users/wimva/Documents/GitHub/eindproef_data-analyse/project/15h25m19s_Gel1_Eseries_4mJ_20micron.h5__SegmentProfiles_Average"
     ed.parse_from_filename(filename)
     print(ed.fluency)
     print(ed.timestamp)
     print(ed.gelatinName)
     print(ed.laserSpotDiameter)
+    print(ed.fnp.filename)
 
 
 

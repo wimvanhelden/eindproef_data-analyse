@@ -9,14 +9,14 @@ class FilenameParser():
     _seperator_symbol_1 = "/"
     _seperator_symbol_2 = "."
     
-
+    """
     def __init__(self, filename):
         self.filename = filename
         self.__list_string_filename_split = self.filename.split(self._seperator_symbol_1)
         #get the last element from that list
         self.__string_filename = self.__list_string_filename_split[len(self.__list_string_filename_split)-1]
         self.__list_filename_split = self.__string_filename.split("_")
-        
+    """    
 
     @property
     def filename(self):
@@ -29,6 +29,10 @@ class FilenameParser():
     def filename(self, value):
         if isinstance(value, str):
             self._string_filename = value
+            self.__list_string_filename_split = self.filename.split(self._seperator_symbol_1)
+            #get the last element from that list
+            self.__string_filename = self.__list_string_filename_split[len(self.__list_string_filename_split)-1]
+            self.__list_filename_split = self.__string_filename.split("_")
         else:
             raise ValueError("filename in FilenameParser can only be set to a string value")
         
