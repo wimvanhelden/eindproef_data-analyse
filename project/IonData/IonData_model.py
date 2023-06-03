@@ -1,5 +1,6 @@
 
 from .BackgroundCorrectingSettings import BackGroundCorrectingSettings
+from .IonData_controller import idc
 
 class IonData(): #class build around one Ion readout from an experiment
     _name = ""  #string that hold the name of the ion, as outputted by massaspectrometer, for example: [63Cu]+
@@ -10,7 +11,10 @@ class IonData(): #class build around one Ion readout from an experiment
     _integreatedPeakSignal2 = None #integrated signal of the second peak (sum of values from seriesCorrectedBackground)
     _totalIntegratedSignal = None  # sum of IntegratedPeakSignals
     bgcs = BackGroundCorrectingSettings()  #class holding the settings used for correcting for background "noise"
-    
+    idc = idc  #set the iondatacontroller
+    _extraction_rate = 46 #number of milliseconds per extraction, used to calculate seriesCPS
+
+
     @property
     def name(self):
         return self._name  
@@ -66,3 +70,12 @@ class IonData(): #class build around one Ion readout from an experiment
     @totalIntegratedSignal.setter
     def totalIntegratedSignal(self, value):
         self._totalIntegratedSignal = value
+
+    def set_seriesCPS(self):
+        self.seriesCPS = self.idc.get_seriesCPS(self.seriesIon, self._extraction_rate)
+
+    def set_seriesCorrectedBackground(self):
+        self.seriesCorrectedBackground = self.idc.get_seriesCorrectedForBackground(self.seriesCPS, self.bgcs)
+
+    
+

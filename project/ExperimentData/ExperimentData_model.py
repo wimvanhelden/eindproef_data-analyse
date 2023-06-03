@@ -1,4 +1,5 @@
 from .FilenameParser import FilenameParser
+from .TSV_Parser import TSV_Standard_Parser
 
 
 class ExperimentData(): #class build around the total (all of the ions) readout from an experiment
@@ -12,7 +13,9 @@ class ExperimentData(): #class build around the total (all of the ions) readout 
     _gelatinName = None  #string value containing info about which gelatin is used in the experiment
     _dataSource = None  #string holding the data source (filename+location) mentioned IN the CSV file (!= actual file location)
     _timestamp = None  #string holding timestamp of when the experiment happened. Normaly parsed from filename of experiment result txt
-    fnp = FilenameParser()
+    _dataframe = None
+    name_parser = FilenameParser()  #set name_parser to the standard filename parser
+    data_parser = TSV_Standard_Parser()  #set data_parser to the standard: TSV standard parser
 
 
 
@@ -96,13 +99,40 @@ class ExperimentData(): #class build around the total (all of the ions) readout 
     def timestamp(self, value):
         self._timestamp = value
 
-    def parse_from_filename(self, filename):
-        
-        self.fnp.filename = filename 
-        self.timestamp = self.fnp.give_timestamp()
-        self.gelatinName = self.fnp.give_gelatinname()
-        self.fluency = self.fnp.give_fluency()
-        self.laserSpotDiameter = self.fnp.give_laser_spot_diameter()
+    @property
+    def dataframe(self):
+        return self._dataframe
+    
+    @dataframe.setter
+    def dataframe(self, value):
+        self._dataframe = value
+
+    def parse_filename(self, filename):        
+        self.name_parser.filename = filename 
+        self.timestamp = self.name_parser.give_timestamp()
+        self.gelatinName = self.name_parser.give_gelatinname()
+        self.fluency = self.name_parser.give_fluency()
+        self.laserSpotDiameter = self.name_parser.give_laser_spot_diameter()
+
+    def parse_TSV(self, filename):
+        self.dataframe = self.data_parser.get_dataframe(filename)
+        self.seriesTimeValues = self.data_parser.get_seriesTimeValues(self.dataframe)
+        self.listIonData  = self.data_parser.get_listIonData(self.dataframe)
+
+    def parse_from_file(self, filename):
+        self.parse_filename(filename)
+        self.parse_TSV(filename)
+
+    def set_all_seriesCPS(self):
+        for Iondata in self.listIonData:
+            Iondata.set_seriesCPS()
+
+    def set_all_seriesCorrectedBackground(self):
+        for Iondata in self.listIonData:
+            Iondata.set_seriesCorrectedBackground()
+
+
+    
 
 
 #DEBUG REMOVE LATER

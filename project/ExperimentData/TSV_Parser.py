@@ -7,6 +7,8 @@ class TSV_Standard_Parser():
     _fileLocation = None  #string holding the filelocation of the CSV file
     _skiprows = 7  # integer value marking where which line the data starts in the file
     _list_names_non_ION_series = ["index", "time (ms)"]
+
+    """
     def get_datasource(self, filename):
         
         #file_content = open('../input/test1.txt',"r")
@@ -16,6 +18,7 @@ class TSV_Standard_Parser():
         with open(filename) as f:
             lines = f.readlines()
             print(lines[8])
+    """
 
     def get_dataframe(self, file_name_location):
         #add: check if file_name_location exists

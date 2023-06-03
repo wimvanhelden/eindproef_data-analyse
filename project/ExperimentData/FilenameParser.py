@@ -8,15 +8,9 @@ class FilenameParser():
     _string_filename = None
     _seperator_symbol_1 = "/"
     _seperator_symbol_2 = "."
+    _seperator_symbol_3 = "_"
     
-    """
-    def __init__(self, filename):
-        self.filename = filename
-        self.__list_string_filename_split = self.filename.split(self._seperator_symbol_1)
-        #get the last element from that list
-        self.__string_filename = self.__list_string_filename_split[len(self.__list_string_filename_split)-1]
-        self.__list_filename_split = self.__string_filename.split("_")
-    """    
+
 
     @property
     def filename(self):
@@ -27,39 +21,63 @@ class FilenameParser():
     
     @filename.setter
     def filename(self, value):
+        """sets filename and some other values used in later methods
+
+        Args:
+            value (_str_): string holding filelocation. for example: "C:/massaspec/output/15h33m42s_Gel1_Eseries_4mJ_20micron.h5__SegmentProfiles_Average.txt"
+
+        Raises:
+            ValueError: _function only excepts strings as input. raises error because values are critical_
+        """
         if isinstance(value, str):
             self._string_filename = value
-            self.__list_string_filename_split = self.filename.split(self._seperator_symbol_1)
+            self._list_string_filename_split = self.filename.split(self._seperator_symbol_1)
             #get the last element from that list
-            self.__string_filename = self.__list_string_filename_split[len(self.__list_string_filename_split)-1]
-            self.__list_filename_split = self.__string_filename.split("_")
+            self._string_filename = self._list_string_filename_split[len(self._list_string_filename_split)-1]
+            self._list_filename_split = self._string_filename.split(self._seperator_symbol_3)
         else:
             raise ValueError("filename in FilenameParser can only be set to a string value")
         
 #set index values for each property (the location of those strings in list_filename_split)
     def give_timestamp(self):
-        return self.__list_filename_split[self._index_timestamp]
+        try:
+            return self._list_filename_split[self._index_timestamp]
+        except Exception as e:
+            print("problem parsing timestamp from filename:")
+            print(e)
+            return None
     
+
     def give_gelatinname(self):
-        return self.__list_filename_split[self._index_gelatinName]
+        try:
+            return self._list_filename_split[self._index_gelatinName]
+        except Exception as e:
+            print("problem parsing gelatinname from filename:")
+            print(e)
+            return None
     
+
     def give_fluency(self):
-        return self.__list_filename_split[self._index_fluency]
+        try:
+            return self._list_filename_split[self._index_fluency]
+        except Exception as e:
+            print("problem parsing fluency from filename:")
+            print(e)
+            return None
+    
     
     def give_laser_spot_diameter(self):
-        full_string = self.__list_filename_split[self._index_laser_spot_diameter]
-        list_split = full_string.split(self._seperator_symbol_2)
-        return list_split[0]
+        try: 
+            full_string = self._list_filename_split[self._index_laser_spot_diameter]
+            list_split = full_string.split(self._seperator_symbol_2)
+            return list_split[0]
+        except Exception as e:
+            print("problem parsing laser_spot_diameter from filename:")
+            print(e)
+            return None
         
 
 
 
-#DEBUG REMOVE LATER
-if __name__ == "__main__":
-    file_location = "C:/Users/wimva/Documents/GitHub/eindproef_data-analyse/project/15h25m19s_Gel1_Eseries_4mJ_20micron.h5__SegmentProfiles_Average"
-    fp = FilenameParser(file_location)
-    print(fp.give_timestamp())
-    print(fp.give_gelatinname())
-    print(fp.give_fluency())
-    print(fp.give_laser_spot_diameter())
+
 
