@@ -16,6 +16,8 @@ class ExperimentData(): #class build around the total (all of the ions) readout 
     _dataframe = None
     name_parser = FilenameParser()  #set name_parser to the standard filename parser
     data_parser = TSV_Standard_Parser()  #set data_parser to the standard: TSV standard parser
+    _cps_set = False
+    _background_corrected = False
 
 
 
@@ -126,10 +128,20 @@ class ExperimentData(): #class build around the total (all of the ions) readout 
     def set_all_seriesCPS(self):
         for Iondata in self.listIonData:
             Iondata.set_seriesCPS()
+        self._cps_set = True
 
     def set_all_seriesCorrectedBackground(self):
+        if self._cps_set == False: 
+            self.set_all_seriesCPS()
+        
         for Iondata in self.listIonData:
             Iondata.set_seriesCorrectedBackground()
+        
+        self._background_corrected = True
+
+    def set_all_peak_signals(self):
+        for iondata in self.listIonData:
+            iondata.set_peak_signals()
 
 
     
