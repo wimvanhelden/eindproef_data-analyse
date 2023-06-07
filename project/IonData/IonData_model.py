@@ -81,9 +81,15 @@ class IonData(): #class build around one Ion readout from an experiment
         self.seriesCPS = self.idc.get_seriesCPS(self.seriesIon, self._extraction_rate)
 
     def set_seriesCorrectedBackground(self):
+        #check that seriesCPS is calculated: 
+        if self.seriesCPS is None:
+            self.set_seriesCPS()
         self.seriesCorrectedBackground = self.idc.get_seriesCorrectedForBackground(self.seriesCPS, self.bgcs)
 
     def set_peak_signals(self):
+        #check that seriesCorrectedBackground is calculated: 
+        if self.seriesCorrectedBackground is None:
+            self.set_seriesCorrectedBackground()
         self.integratedPeakSignal1, self.integratedPeakSignal2 = spi.give_integrated_peaks(self.seriesCorrectedBackground)
         self.updateTotalIntegratedSignal()
 

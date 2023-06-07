@@ -115,6 +115,7 @@ class ExperimentData(): #class build around the total (all of the ions) readout 
         self.gelatinName = self.name_parser.give_gelatinname()
         self.fluency = self.name_parser.give_fluency()
         self.laserSpotDiameter = self.name_parser.give_laser_spot_diameter()
+        self.E_setpoint_procent = self.name_parser.give_E_percent()
 
     def parse_TSV(self, filename):
         self.dataframe = self.data_parser.get_dataframe(filename)

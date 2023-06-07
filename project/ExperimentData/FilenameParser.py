@@ -4,11 +4,13 @@ class FilenameParser():
     _index_gelatinName = 1
     _index_fluency = 3
     _index_laser_spot_diameter = 4
+    _index_E_percent = 8
     #_string_filename = "C:/Users/wimva/Documents/GitHub/eindproef_data-analyse/project/15h25m19s_Gel1_Eseries_4mJ_20micron.h5__SegmentProfiles_Average" #DEVELOPMENT REMOVE LATER
     _string_filename = None
     _seperator_symbol_1 = "/"
     _seperator_symbol_2 = "."
     _seperator_symbol_3 = "_"
+    _seperator_symbol_4 = "-"
     
 
 
@@ -75,6 +77,18 @@ class FilenameParser():
             print("problem parsing laser_spot_diameter from filename:")
             print(e)
             return None
+        
+    def give_E_percent(self):
+        try:
+            full_string = self._list_filename_split[self._index_E_percent]
+            list_split = full_string.split(self._seperator_symbol_4)
+            string_return = list_split[1].split(self._seperator_symbol_2)[0]
+            return string_return
+        except Exception as e:
+            print(f"problem parsing E_percent from filename: {self.filename}")
+            print(e)
+            return None
+
         
 
 
