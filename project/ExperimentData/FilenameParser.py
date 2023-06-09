@@ -83,7 +83,7 @@ class FilenameParser():
             full_string = self._list_filename_split[self._index_E_percent]
             list_split = full_string.split(self._seperator_symbol_4)
             string_return = list_split[1].split(self._seperator_symbol_2)[0]
-            return string_return
+            return int(string_return)
         except Exception as e:
             print(f"problem parsing E_percent from filename: {self.filename}")
             print(e)

@@ -62,7 +62,7 @@ if __name__ == "__main__":
     print(mc.listExperimentData[2].listIonData[10].integratedPeakSignal1)
     print(len(mc.listExperimentData))
     """
-    mc.set_ionnames_gels_peakdata()
+    mc.set_ionnames_gels_peakdata_Eset()
     """
     for experimentdata in mc.listExperimentData:
         print(f"{experimentdata.gelatinName} - {experimentdata.E_setpoint_procent}")
@@ -71,10 +71,10 @@ if __name__ == "__main__":
     """
     
     mc.initialise_dictIonGelPeak()
-    mc.choose_gel_per_ionname()
+    mc.calculate_gel_per_ionname()
+    mc.set_IonOfEset_dict()
     #print(mc.dictIonGelPeak)
-    for ionname in mc.dictIonGelPeak:
-        print(f"{ionname} - {mc.dictIonGelPeak[ionname]['BestGel']}")
+    print(mc.dictIonGelPeak["[6Li]+ mass 6.01546"]["IonOfEset"])
     
 
 

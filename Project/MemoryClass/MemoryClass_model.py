@@ -4,6 +4,7 @@ class MemoryClass():
     _listExperimentData = []  #central list of this class. Hold all the data in memory
     _listIonNames = []
     _listGelatinNames = []
+    _listEset = []
     controller = mmc  #set controller to default 
     _dictIonGelPeak = {}
 
@@ -39,6 +40,14 @@ class MemoryClass():
     def dictIonGelPeak(self, value):
         self._dictIonGelPeak = value
 
+    @property
+    def listEset(self):
+        return self._listEset
+    
+    @listEset.setter
+    def listEset(self, value):
+        self._listEset = value
+
 
 
     def load_from_directory(self, location):
@@ -56,7 +65,7 @@ class MemoryClass():
         for experimentdata in self.listExperimentData:
             experimentdata.set_all_peak_signals()
 
-    def set_ionnames_gels_peakdata(self):
+    def set_ionnames_gels_peakdata_Eset(self):
         #loop over all experimentdata's 
         #put all IonNames (f.e. "[23Na]+ mmass 14.0025)" in list_IonNames
         #put all Gelnames (f.e. "gel1" in list_gelNames)
@@ -64,6 +73,8 @@ class MemoryClass():
         for Experimentdata in self.listExperimentData:
             if Experimentdata.gelatinName not in self.listGelatinNames:
                 self.listGelatinNames.append(Experimentdata.gelatinName)
+            if Experimentdata.E_setpoint_procent not in self.listEset:
+                self.listEset.append(Experimentdata.E_setpoint_procent)
             for Iondata in Experimentdata.listIonData:
                 if Iondata.name not in self.listIonNames:
                     self.listIonNames.append(Iondata.name)
@@ -71,6 +82,7 @@ class MemoryClass():
                     Iondata.set_peak_signals()
         #sort the list of gelatinnames alpahbetically:            
         self.listGelatinNames.sort()
+        self.listEset.sort()
 
     def initialise_dictIonGelPeak(self):
         #clear dictIonGelpeak:
@@ -88,13 +100,29 @@ class MemoryClass():
                 # that 0 will be used as a rolling sum value later in the summation
                 self.dictIonGelPeak[IonName]["GelTotal"][gelname] = 0
 
-    def choose_gel_per_ionname(self):
+    def calculate_gel_per_ionname(self):
         for experimentdata in self.listExperimentData:
             for iondata in experimentdata.listIonData:
                 self.dictIonGelPeak[iondata.name]["GelTotal"][experimentdata.gelatinName] += iondata.totalIntegratedSignal
 
         for ionname in self.dictIonGelPeak:
             self.dictIonGelPeak[ionname]["BestGel"] = max(self.dictIonGelPeak[ionname]["GelTotal"], key=self.dictIonGelPeak[ionname]["GelTotal"].get)
+
+        
+    def set_IonOfEset_dict(self):
+        for ionname in self.listIonNames:
+            self.dictIonGelPeak[ionname]["IonOfEset"] = {}
+            gelchosen = self.dictIonGelPeak[ionname]["BestGel"]
+            for Eset in self.listEset:
+                for experimentdata in self.listExperimentData:
+                    if experimentdata.gelatinName == gelchosen and experimentdata.E_setpoint_procent == Eset:
+                        for iondata in experimentdata.listIonData:
+                            if iondata.name == ionname:
+                                self.dictIonGelPeak[ionname]["IonOfEset"][Eset] = iondata
+                                break
+
+
+
 
         
 
