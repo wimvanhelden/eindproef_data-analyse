@@ -12,6 +12,7 @@ class MemoryClassController():
                 # check if current path is a file
                 if os.path.isfile(os.path.join(location, path)):
                       list_file_adress.append(location+path)
+            #print(list_file_adress)
             return list_file_adress
 
 

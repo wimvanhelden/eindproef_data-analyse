@@ -1,4 +1,5 @@
 from .MemoryClass_controller import mmc
+from .MemoryClass_viewer import mcv
 
 class MemoryClass():
     _listExperimentData = []  #central list of this class. Hold all the data in memory
@@ -7,6 +8,7 @@ class MemoryClass():
     _listEset = []
     controller = mmc  #set controller to default 
     _dictIonGelPeak = {}
+    viewer = mcv  #set the viewer to instance of standard mcv
 
     @property
     def listExperimentData(self):
@@ -66,6 +68,10 @@ class MemoryClass():
             experimentdata.set_all_peak_signals()
 
     def set_ionnames_gels_peakdata_Eset(self):
+        self.set_all_seriesCPS()
+        self.set_all_seriesCorrectedBackground()
+        self.set_all_peak_signals()
+
         #loop over all experimentdata's 
         #put all IonNames (f.e. "[23Na]+ mmass 14.0025)" in list_IonNames
         #put all Gelnames (f.e. "gel1" in list_gelNames)
@@ -121,13 +127,18 @@ class MemoryClass():
                                 self.dictIonGelPeak[ionname]["IonOfEset"][Eset] = iondata
                                 break
 
+    def make_excel(self):
+        self.initialise_dictIonGelPeak()
+        self.calculate_gel_per_ionname()
+        self.set_IonOfEset_dict()
+        mcv.create_excel(self.listIonNames, self.dictIonGelPeak)
 
 
 
         
 
     
-
+mc = MemoryClass()
 
 
 
