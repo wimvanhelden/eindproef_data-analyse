@@ -2,7 +2,13 @@ from .FilenameParser import FilenameParser
 from .TSV_Parser import TSV_Standard_Parser
 
 
-class ExperimentData(): #class build around the total (all of the ions) readout from an experiment
+class ExperimentData(): 
+    """
+    class build around the total (all of the ions) readout from an experiment
+    
+    """
+
+
     _listIonData = []  #list holding all the IonData's (pandas series) for this experiment
     _seriesTimeValues = None #pandas series holding the time values (interval values) for an experiment
     _extractionRate = 1000000/46 #rate of 1 extraction per 46 microseconds
@@ -14,12 +20,10 @@ class ExperimentData(): #class build around the total (all of the ions) readout 
     _dataSource = None  #string holding the data source (filename+location) mentioned IN the CSV file (!= actual file location)
     _timestamp = None  #string holding timestamp of when the experiment happened. Normaly parsed from filename of experiment result txt
     _dataframe = None
-    name_parser = FilenameParser()  #set name_parser to the standard filename parser
-    data_parser = TSV_Standard_Parser()  #set data_parser to the standard: TSV standard parser
+    name_parser = FilenameParser()  #set name_parser to new isntance of the standard filename parser
+    data_parser = TSV_Standard_Parser()  #set data_parser to new instance of the standard: TSV standard parser
     _cps_set = False
     _background_corrected = False
-
-
 
     @property
     def listIonData(self):
@@ -109,7 +113,12 @@ class ExperimentData(): #class build around the total (all of the ions) readout 
     def dataframe(self, value):
         self._dataframe = value
 
-    def parse_filename(self, filename):        
+    def parse_filename(self, filename):
+        """parses the filename of a massaspec output (tsv)file to set property fields. calls name_parser. 
+
+        Args:
+            filename (_str_): filelocation
+        """   
         self.name_parser.filename = filename 
         self.timestamp = self.name_parser.give_timestamp()
         self.gelatinName = self.name_parser.give_gelatinname()
@@ -118,20 +127,34 @@ class ExperimentData(): #class build around the total (all of the ions) readout 
         self.E_setpoint_procent = self.name_parser.give_E_percent()
 
     def parse_TSV(self, filename):
+        """parses the dataframe  from a massaspec output (tsv)file. calls data parser. 
+
+        Args:
+            filename (_str_): filelocation
+        """
         self.dataframe = self.data_parser.get_dataframe(filename)
         self.seriesTimeValues = self.data_parser.get_seriesTimeValues(self.dataframe)
         self.listIonData  = self.data_parser.get_listIonData(self.dataframe)
 
     def parse_from_file(self, filename):
+        """combines parse_TSV and parse_filename to collect all info from a massaspec output (tsv)file
+
+        Args:
+            filename (_str_): filelocation
+        """
         self.parse_filename(filename)
         self.parse_TSV(filename)
 
     def set_all_seriesCPS(self):
+        """sets all seriesCorrectedBackground for all iondatas in listIonData
+        """
         for Iondata in self.listIonData:
             Iondata.set_seriesCPS()
         self._cps_set = True
 
     def set_all_seriesCorrectedBackground(self):
+        """sets all seriesCorrectedBackground for all iondatas in listIonData
+        """
         if self._cps_set == False: 
             self.set_all_seriesCPS()
         
@@ -141,23 +164,13 @@ class ExperimentData(): #class build around the total (all of the ions) readout 
         self._background_corrected = True
 
     def set_all_peak_signals(self):
+        """sets all peak signals for all iondatas in listIonData
+        """
         for iondata in self.listIonData:
             iondata.set_peak_signals()
 
 
     
-
-
-#DEBUG REMOVE LATER
-if __name__ == "__main__":
-    ed = ExperimentData()
-    filename = "C:/Users/wimva/Documents/GitHub/eindproef_data-analyse/project/15h25m19s_Gel1_Eseries_4mJ_20micron.h5__SegmentProfiles_Average"
-    ed.parse_from_filename(filename)
-    print(ed.fluency)
-    print(ed.timestamp)
-    print(ed.gelatinName)
-    print(ed.laserSpotDiameter)
-    print(ed.fnp.filename)
 
 
 

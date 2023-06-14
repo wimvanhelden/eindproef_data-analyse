@@ -3,7 +3,10 @@ from .BackgroundCorrectingSettings import BackGroundCorrectingSettings
 from .IonData_controller import idc
 from .StandardPeakIntegrator import spi
 
-class IonData(): #class build around one Ion readout from an experiment
+class IonData():
+    """class build around one Ion readout from an experiment
+    """
+     
     _name = ""  #string that hold the name of the ion, as outputted by massaspectrometer, for example: [63Cu]+
     _seriesIon = None  #pandas series holding the numbers of ions per extraction (same as CSV output of massaspectrometer)
     _seriesCPS = None  #pandas series that facors in extraction rate. seriesIon *(1000000/46)(number of of ions per extraction multiplied by 1 extraction per 46 microseconds). 
@@ -78,15 +81,21 @@ class IonData(): #class build around one Ion readout from an experiment
         self._totalIntegratedSignal = value
 
     def set_seriesCPS(self):
+        """sets seriesCPS based on seriesION values. Uses the controller class.
+        """
         self.seriesCPS = self.idc.get_seriesCPS(self.seriesIon, self._extraction_rate)
 
     def set_seriesCorrectedBackground(self):
+        """sets seriesCorrectedBackground based on seriesCPS values. Uses the controller class.
+        """
         #check that seriesCPS is calculated: 
         if self.seriesCPS is None:
             self.set_seriesCPS()
         self.seriesCorrectedBackground = self.idc.get_seriesCorrectedForBackground(self.seriesCPS, self.bgcs)
 
     def set_peak_signals(self):
+        """sets values of the two peak signals, + calls to update the total integrated signal. Uses the controller class. 
+        """
         #check that seriesCorrectedBackground is calculated: 
         if self.seriesCorrectedBackground is None:
             self.set_seriesCorrectedBackground()
@@ -94,6 +103,8 @@ class IonData(): #class build around one Ion readout from an experiment
         self.updateTotalIntegratedSignal()
 
     def updateTotalIntegratedSignal(self):
+        """updates (or sets) the totalIntegratedSignal (sum of two peak values)
+        """
         total_signal = 0
         if self.integratedPeakSignal1 is not None:
             total_signal += self.integratedPeakSignal1

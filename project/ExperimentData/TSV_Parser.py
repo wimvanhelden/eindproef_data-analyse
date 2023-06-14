@@ -1,27 +1,28 @@
 import pandas as pd
 from ..IonData.IonData_model import IonData
-#from ExperimentData_model import ExperimentData
+
 
 
 class TSV_Standard_Parser():
+    """
+    class that handles parsing a TSV (get data from contents, and from filename)
+    """    
     _fileLocation = None  #string holding the filelocation of the CSV file
     _skiprows = 7  # integer value marking where which line the data starts in the file
     _list_names_non_ION_series = ["index", "time (ms)"]
 
-    """
-    def get_datasource(self, filename):
-        
-        #file_content = open('../input/test1.txt',"r")
-        #print(file_content.getlines())
-        
 
-        with open(filename) as f:
-            lines = f.readlines()
-            print(lines[8])
-    """
 
     def get_dataframe(self, file_name_location):
-        #add: check if file_name_location exists
+        """returns a pandas dataframe holding all data from an experiment from a TSV file (output of the massaspec)
+
+        Args:
+            file_name_location (_str_): location of the massaspec output file (TSV file)
+
+        Returns:
+            _pandasdataframe_: pandas dataframe holding all data from an experiment from a TSV file
+        """
+        #possible addition: check if file_name_location exists. now its handled "ugly" with try...except...
         try:
             df = pd.read_table(file_name_location, skiprows=self._skiprows)
             return df
@@ -31,6 +32,14 @@ class TSV_Standard_Parser():
             return None
 
     def get_seriesTimeValues(self, dataframe):
+        """returns the series holding the timevalues (ms values) from a dataframe 
+
+        Args:
+            returns the series holding the timevalues (ms values) from a dataframe 
+
+        Returns:
+            _pandasseries_: _pandasseries holding the time values of an experiment_
+        """
         try:
             series = dataframe['time (ms)']
             return series
@@ -40,6 +49,14 @@ class TSV_Standard_Parser():
             return None
         
     def get_listIonData(self, dataframe):
+        """returns the series holding the timevalues (ms values) from a dataframe 
+
+        Args:
+            returns the series holding the timevalues (ms values) from a dataframe 
+
+        Returns:
+            _pandasseries_: _pandasseries holding the time values of an experiment_
+        """
         try: 
             all_columnnames = dataframe.columns
             listIonData = []
@@ -60,6 +77,16 @@ class TSV_Standard_Parser():
           
     #function for getting a pandas data set from csv
     def read_data(filename:str, relative_location:str="./input", skiprows:int=7):
+        """gets a pandas data set from tsv file
+
+        Args:
+            filename (str): name of file
+            relative_location (str, optional): location of file. Defaults to "./input".
+            skiprows (int, optional): number of rows to skip. Defaults to 7.
+
+        Returns:
+            _pandasdataframe_: dataframe holding experiment results
+        """
         try: 
             build_file_location=relative_location + "/" + filename
             df = pd.read_table('../input/test1.txt', skiprows=7)
@@ -69,15 +96,4 @@ class TSV_Standard_Parser():
             return None
     
 
-#DEBUG REMOVE LATER
-if __name__ == "__main__":
-    """
-    tsp = TSV_Standard_Parser()
-    filename = "C:/Users/wimva/Documents/GitHub/eindproef_data-analyse/input/test1.txt"
-    df = tsp.get_dataframe(filename)
-    #list_ion = tsp.get_listIonData(df)
-    
-    #tsp.get_listIonData(df)
-    list_ion_data = tsp.get_listIonData(df)
-    #print(list_ion_data[5])
-    """
+

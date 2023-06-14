@@ -1,12 +1,29 @@
 
 class IonDataController():
     def get_seriesCPS(self, seriesIon, samplerate):
+        """returns seriesCPS based on seriesIon (IONDATA)
+
+        Args:
+            seriesIon (_pandas series_): series holding data/time for specfic ion
+            samplerate (_int_): integer holding the the time it takes the massaspec to take a sample. for example: 46 microseconds
+
+        Returns:
+            __pandas series_: series holding the iondata corrected for samplerate
+        """
+        #initialise new series
         new_series = seriesIon.copy()
         seriesCPS = new_series*(1000000)/samplerate
         return seriesCPS
     
     def get_seriesCorrectedForBackground(self, seriesCPS, BackGroundCorrectingSettings):
-            #add: check that there are intervals marked as background... 
+        """returns series of iondata (corrected for cps) corrected for background. 
+        it lowers the values of seriesCPS by the average of the non-peak intervals
+
+        Args:
+            seriesCPS (_pandasseries_): series holding the iondata corrected for samplerate
+            BackGroundCorrectingSettings (_class_): helperclass holding the integration bounds for the peaks
+        """
+            
         # set total_length and total_sum variables. average will be total_sum / total_length
         total_length = 0
         total_sum = 0
