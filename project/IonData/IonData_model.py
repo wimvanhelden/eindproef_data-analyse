@@ -2,6 +2,7 @@
 from .BackgroundCorrectingSettings import BackGroundCorrectingSettings
 from .IonData_controller import idc
 from .StandardPeakIntegrator import spi
+from pandas import Series
 
 class IonData():
     """class build around one Ion readout from an experiment
@@ -21,63 +22,63 @@ class IonData():
 
 
     @property
-    def name(self):
+    def name(self)->str:
         return self._name  
 
     @name.setter
-    def name(self, value):
+    def name(self, value:str):
         self._name = value
 
     @property
-    def seriesIon(self):
+    def seriesIon(self)->Series:
         return self._seriesIon
 
     @seriesIon.setter
-    def seriesIon(self, value):
+    def seriesIon(self, value:Series):
         self._seriesIon = value
 
     @property
-    def seriesCPS(self):
+    def seriesCPS(self)->Series:
         return self._seriesCPS
 
     @seriesCPS.setter
-    def seriesCPS(self, value):
+    def seriesCPS(self, value:Series):
         self._seriesCPS = value
 
     @property
-    def seriesCorrectedBackground(self):
+    def seriesCorrectedBackground(self)->Series:
         return self._seriesCorrectedBackground
 
     @seriesCorrectedBackground.setter
-    def seriesCorrectedBackground(self, value):
+    def seriesCorrectedBackground(self, value:Series):
         self._seriesCorrectedBackground = value
 
     @property
-    def integratedPeakSignal1(self):
+    def integratedPeakSignal1(self)->int:
         return self._integratedPeakSignal1
     
     @integratedPeakSignal1.setter
-    def integratedPeakSignal1(self, value):
+    def integratedPeakSignal1(self, value:int):
         self._integratedPeakSignal1 = value
         #use the setter to also update the total integrated value:
         self.updateTotalIntegratedSignal()
 
     @property
-    def integratedPeakSignal2(self):
+    def integratedPeakSignal2(self)->int:
         return self._integratedPeakSignal2
         
     @integratedPeakSignal2.setter
-    def integratedPeakSignal2(self, value):
+    def integratedPeakSignal2(self, value:int):
         self._integratedPeakSignal2 = value
         #use the setter to also update the total integrated value:
         self.updateTotalIntegratedSignal()
 
     @property
-    def totalIntegratedSignal(self):
+    def totalIntegratedSignal(self)->int:
         return self._totalIntegratedSignal
     
     @totalIntegratedSignal.setter
-    def totalIntegratedSignal(self, value):
+    def totalIntegratedSignal(self, value:int):
         self._totalIntegratedSignal = value
 
     def set_seriesCPS(self):

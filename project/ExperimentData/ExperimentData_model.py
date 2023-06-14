@@ -1,6 +1,6 @@
 from .FilenameParser import FilenameParser
 from .TSV_Parser import TSV_Standard_Parser
-
+import pandas as pd
 
 class ExperimentData(): 
     """
@@ -26,94 +26,94 @@ class ExperimentData():
     _background_corrected = False
 
     @property
-    def listIonData(self):
+    def listIonData(self)->list:
         return self._listIonData
     
     @listIonData.setter
-    def listIonData(self, value):
+    def listIonData(self, value:list):
         self._listIonData = value
 
     @property
-    def seriesTimeValues(self):
+    def seriesTimeValues(self)->pd.Series:
         return self._seriesTimeValues
     
     @seriesTimeValues.setter
-    def seriesTimeValues(self, value):
+    def seriesTimeValues(self, value:pd.Series):
         self._seriesTimeValues = value
 
     @property
-    def extractionRate(self):
+    def extractionRate(self)->int:
         return self._extractionRate
     
     @extractionRate.setter
-    def extractionRate(self, value):
+    def extractionRate(self, value:int):
         self._extractionRate = value
 
     @property
-    def tubeLength(self):
+    def tubeLength(self)->str:
         return self._tubeLenght
     
     @tubeLength.setter
-    def tubeLengts(self, value):
+    def tubeLengts(self, value:str):
         self._tubeLenght = value
 
     @property
-    def E_setpoint_procent(self):
+    def E_setpoint_procent(self)->str:
         return self._E_setpoint_procent
     
     @E_setpoint_procent.setter
-    def E_setpoint_procent(self, value):
+    def E_setpoint_procent(self, value:str):
         self._E_setpoint_procent = value
 
     @property
-    def fluency(self):
+    def fluency(self)->str:
         return self._fluency
     
     @fluency.setter
-    def fluency(self, value):
+    def fluency(self, value:str):
         self._fluency = value
 
     @property
-    def laserSpotDiameter(self):
+    def laserSpotDiameter(self)->str:
         return self._laserSpotDiameter
     
     @laserSpotDiameter.setter
-    def laserSpotDiameter(self, value):
+    def laserSpotDiameter(self, value:str):
         self._laserSpotDiameter = value
 
     @property
-    def gelatinName(self):
+    def gelatinName(self)->str:
         return self._gelatinName
     
     @gelatinName.setter
-    def gelatinName(self, value):
+    def gelatinName(self, value:str):
         self._gelatinName = value
 
     @property
-    def datasource(self):
+    def datasource(self)->str:
         return self._datasource
     
     @datasource.setter
-    def datasource(self, value):
+    def datasource(self, value:str):
         self._datasource = value
 
     @property
-    def timestamp(self):
+    def timestamp(self)->str:
         return self._timestamp
     
     @timestamp.setter
-    def timestamp(self, value):
+    def timestamp(self, value:str):
         self._timestamp = value
 
     @property
-    def dataframe(self):
+    def dataframe(self)->pd.DataFrame:
         return self._dataframe
     
     @dataframe.setter
-    def dataframe(self, value):
+    def dataframe(self, value:pd.DataFrame):
         self._dataframe = value
 
-    def parse_filename(self, filename):
+    def parse_filename(self, filename:str):
         """parses the filename of a massaspec output (tsv)file to set property fields. calls name_parser. 
 
         Args:
@@ -126,7 +126,7 @@ class ExperimentData():
         self.laserSpotDiameter = self.name_parser.give_laser_spot_diameter()
         self.E_setpoint_procent = self.name_parser.give_E_percent()
 
-    def parse_TSV(self, filename):
+    def parse_TSV(self, filename:str):
         """parses the dataframe  from a massaspec output (tsv)file. calls data parser. 
 
         Args:
@@ -136,7 +136,7 @@ class ExperimentData():
         self.seriesTimeValues = self.data_parser.get_seriesTimeValues(self.dataframe)
         self.listIonData  = self.data_parser.get_listIonData(self.dataframe)
 
-    def parse_from_file(self, filename):
+    def parse_from_file(self, filename:str):
         """combines parse_TSV and parse_filename to collect all info from a massaspec output (tsv)file
 
         Args:

@@ -1,6 +1,7 @@
+from pandas import Series
 
 class IonDataController():
-    def get_seriesCPS(self, seriesIon, samplerate):
+    def get_seriesCPS(self, seriesIon:Series, samplerate:int)->Series:
         """returns seriesCPS based on seriesIon (IONDATA)
 
         Args:
@@ -12,10 +13,14 @@ class IonDataController():
         """
         #initialise new series
         new_series = seriesIon.copy()
-        seriesCPS = new_series*(1000000)/samplerate
-        return seriesCPS
+        try:
+            seriesCPS = new_series*(1000000)/samplerate
+            return seriesCPS
+        except Exception as e:
+            print(f"error in get_seriesCPS: {e}")
+            return new_series
     
-    def get_seriesCorrectedForBackground(self, seriesCPS, BackGroundCorrectingSettings):
+    def get_seriesCorrectedForBackground(self, seriesCPS:Series, BackGroundCorrectingSettings)->Series:
         """returns series of iondata (corrected for cps) corrected for background. 
         it lowers the values of seriesCPS by the average of the non-peak intervals
 

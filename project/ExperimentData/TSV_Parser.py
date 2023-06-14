@@ -13,7 +13,7 @@ class TSV_Standard_Parser():
 
 
 
-    def get_dataframe(self, file_name_location):
+    def get_dataframe(self, file_name_location:str)->pd.DataFrame:
         """returns a pandas dataframe holding all data from an experiment from a TSV file (output of the massaspec)
 
         Args:
@@ -31,7 +31,7 @@ class TSV_Standard_Parser():
             print(e)
             return None
 
-    def get_seriesTimeValues(self, dataframe):
+    def get_seriesTimeValues(self, dataframe:pd.DataFrame)->pd.Series:
         """returns the series holding the timevalues (ms values) from a dataframe 
 
         Args:
@@ -48,7 +48,7 @@ class TSV_Standard_Parser():
             print(e)
             return None
         
-    def get_listIonData(self, dataframe):
+    def get_listIonData(self, dataframe:pd.DataFrame)->pd.Series:
         """returns the series holding the timevalues (ms values) from a dataframe 
 
         Args:
@@ -76,7 +76,7 @@ class TSV_Standard_Parser():
 
           
     #function for getting a pandas data set from csv
-    def read_data(filename:str, relative_location:str="./input", skiprows:int=7):
+    def read_data(filename:str, relative_location:str="./input", skiprows:int=7)->pd.DataFrame:
         """gets a pandas data set from tsv file
 
         Args:

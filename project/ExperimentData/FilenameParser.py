@@ -15,14 +15,14 @@ class FilenameParser():
     
 
     @property
-    def filename(self):
+    def filename(self)->str:
         if self._string_filename is not None:
             return self._string_filename
         else:
             raise AttributeError("filename is not set in FilenameParser")
     
     @filename.setter
-    def filename(self, value):
+    def filename(self, value:str):
         """sets filename and some other values used in later methods
 
         Args:
@@ -33,15 +33,18 @@ class FilenameParser():
         """
         if isinstance(value, str):
             self._string_filename = value
-            self._list_string_filename_split = self.filename.split(self._seperator_symbol_1)
-            #get the last element from that list
-            self._string_filename = self._list_string_filename_split[len(self._list_string_filename_split)-1]
-            self._list_filename_split = self._string_filename.split(self._seperator_symbol_3)
+            try:
+                self._list_string_filename_split = self.filename.split(self._seperator_symbol_1)
+                #get the last element from that list
+                self._string_filename = self._list_string_filename_split[len(self._list_string_filename_split)-1]
+                self._list_filename_split = self._string_filename.split(self._seperator_symbol_3)
+            except Exception as e:
+                raise IndexError(f"problem setting filename: {e}")
         else:
-            raise ValueError("filename in FilenameParser can only be set to a string value")
+            raise TypeError("filename in FilenameParser can only be set to a string value")
         
 #set index values for each property (the location of those strings in list_filename_split)
-    def give_timestamp(self):
+    def give_timestamp(self)->str:
         """returns timestamp from filename
 
         Returns:
@@ -55,7 +58,7 @@ class FilenameParser():
             return None
     
 
-    def give_gelatinname(self):
+    def give_gelatinname(self)->str:
         """returns gelatinname from filename
 
         Returns:
@@ -69,7 +72,7 @@ class FilenameParser():
             return None
     
 
-    def give_fluency(self):
+    def give_fluency(self)->str:
         """returns fluency from filename
 
         Returns:
@@ -83,7 +86,7 @@ class FilenameParser():
             return None
     
     
-    def give_laser_spot_diameter(self):
+    def give_laser_spot_diameter(self)->str:
         """returns laser spot diameter from filename
 
         Returns:
@@ -98,7 +101,7 @@ class FilenameParser():
             print(e)
             return None
         
-    def give_E_percent(self):
+    def give_E_percent(self)->str:
         """returns E_setting_% from filename
 
         Returns:

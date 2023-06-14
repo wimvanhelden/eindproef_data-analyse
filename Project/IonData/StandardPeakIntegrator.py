@@ -1,11 +1,11 @@
 class StandardPeakIntegrator():
     """class that handles the standard case for peak integration (two peak phenomenon)
     """
-    
+
     interval_1 = [3,12] #list with the index values of the borders of first peak
     interval_2 = [13,50] #list with the index values of the borders of second peak
 
-    def give_integrated_peaks(self, pandasseries):
+    def give_integrated_peaks(self, pandasseries)->int:
         """returns two values: integrated CPS peak signal for IonClass data
 
         Args:

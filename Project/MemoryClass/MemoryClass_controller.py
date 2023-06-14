@@ -2,7 +2,7 @@ import os
 from..ExperimentData.ExperimentData_model import ExperimentData
 
 class MemoryClassController():
-    def get_list_file_adress_directory(self, location):
+    def get_list_file_adress_directory(self, location:str)->list:
         """returns a list with all file adresses of files in a directory
 
         Args:
@@ -22,7 +22,7 @@ class MemoryClassController():
 
 
 
-    def get_from_directory(self, location):
+    def get_from_directory(self, location:str)->list:
         """handles loading experiment output TSV files into the memoryclass. 
         Returns a list with an ExperimentData object for each file in the location
 

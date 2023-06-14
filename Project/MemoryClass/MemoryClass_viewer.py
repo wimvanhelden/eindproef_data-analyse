@@ -41,7 +41,7 @@ class MemoryClassViewer():
     dict_Eset_fluency[90]=6.3
 
    
-    def create_excel(self, listIonNames, dictIonGelPeak):
+    def create_excel(self, listIonNames:list, dictIonGelPeak:dict):
         """creates the excel for two-peak analysis. Excel is created in same directory as the .exe (or run.py file)
 
         Args:

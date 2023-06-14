@@ -20,48 +20,48 @@ class MemoryClass():
     controller = mmc  #set controller to default 
 
     @property
-    def listExperimentData(self):
+    def listExperimentData(self)->list:
         return self._listExperimentData
     
     @listExperimentData.setter
-    def listExperimentData(self, value):
+    def listExperimentData(self, value:list):
         self._listExperimentData = value
 
     @property
-    def listIonNames(self):
+    def listIonNames(self)->list:
         return self._listIonNames
     
     @listIonNames.setter
-    def listIonNames(self, value):
+    def listIonNames(self, value:list):
         self._listIonNames = value
 
     @property
-    def listGelatinNames(self):
+    def listGelatinNames(self)->list:
         return self._listGelatinNames
     
     @listGelatinNames.setter
-    def listGelatinNames(self, value):
+    def listGelatinNames(self, value:list):
         self._listGelatinNames = value
 
     @property
-    def dictIonGelPeak(self):
+    def dictIonGelPeak(self)->dict:
         return self._dictIonGelPeak
     
     @dictIonGelPeak.setter
-    def dictIonGelPeak(self, value):
+    def dictIonGelPeak(self, value:dict):
         self._dictIonGelPeak = value
 
     @property
-    def listEset(self):
+    def listEset(self)->list:
         return self._listEset
     
     @listEset.setter
-    def listEset(self, value):
+    def listEset(self, value:list):
         self._listEset = value
 
 
 
-    def load_from_directory(self, location):
+    def load_from_directory(self, location:str):
         """call the controller to load all massaspec files in a location (directory adress) into memory
 
         Args:
