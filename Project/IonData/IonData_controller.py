@@ -32,21 +32,24 @@ class IonDataController():
         # set total_length and total_sum variables. average will be total_sum / total_length
         total_length = 0
         total_sum = 0
+
         #loop over all the intervals and calculate rolling sum and total length... 
         for interval in BackGroundCorrectingSettings.non_peak_intervals:
             #check for logical interval values
             try: 
                 if interval[0]<interval[1]:
                     for index in range(interval[0], interval[1]):
+
                         total_sum += seriesCPS[index]
-                        total_length +=1
+
+                        total_length +=1                            
+
             except: 
                 raise ValueError("valueerror in getSeriesCorrectedForBackground ... most likely the values in non_peak_intervals are not integers ")
         #calculate the average. average will return 0 if no calculation could be made (len interval is 0 or incorrect values)
         try:
             average = total_sum / total_length
         except: 
-
             average = 0
         #initialise new series
         new_series = seriesCPS.copy()

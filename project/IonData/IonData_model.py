@@ -45,6 +45,7 @@ class IonData():
     def seriesCPS(self, value:Series):
         self._seriesCPS = value
 
+
     @property
     def seriesCorrectedBackground(self)->Series:
         return self._seriesCorrectedBackground
@@ -91,7 +92,9 @@ class IonData():
         """
         #check that seriesCPS is calculated: 
         if self.seriesCPS is None:
+            
             self.set_seriesCPS()
+
         self.seriesCorrectedBackground = self.idc.get_seriesCorrectedForBackground(self.seriesCPS, self.bgcs)
 
     def set_peak_signals(self):

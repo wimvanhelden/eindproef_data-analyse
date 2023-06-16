@@ -89,6 +89,11 @@ class MemoryClass():
             experimentdata.set_all_peak_signals()
 
     def set_ionnames_gels_peakdata_Eset(self):
+        """creates:
+         -  self.listIonNames: list of all ionnames in memoryclass
+         - self.listGelatinNames: list of all gelnames in memoryclass
+         - self.listEset: list of all Eset values in memoryclass
+        """
         #check that all the preparation calculations are set, if not: do them
         self.set_all_seriesCPS()
         self.set_all_seriesCorrectedBackground()
