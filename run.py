@@ -1,5 +1,5 @@
 from Project.MemoryClass.MemoryClass_model import mc
-from Project.ExperimentData.FilenameParser import FilenameParser
+
 import tkinter
 from tkinter import filedialog, StringVar
 
@@ -34,7 +34,7 @@ def select_directory():
         mc.set_ionnames_gels_peakdata_Eset()
         #give user feedback and update label_status
         text_label_number_experiments.set(f"Number of experimentdata's succefully loaded: {len(mc.listExperimentData)}")
-        text_label_number_gels.set(f"Number of gel's in dataset: {len(mc.listGelatinNames)}")
+        text_label_number_gels.set(f"Number of gels in dataset: {len(mc.listGelatinNames)}")
         label_status.config(bg='#333333')
         text_status.set("")
         window.update_idletasks()

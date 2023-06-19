@@ -5,7 +5,6 @@ from Project.IonData.IonData_model import IonData
 from Project.MemoryClass.MemoryClass_model import MemoryClass
 from Project.ExperimentData.ExperimentData_model import ExperimentData
 
-
 class TestIonData(unittest.TestCase):
     
     def setUp(self):
@@ -98,28 +97,27 @@ class TestIonData(unittest.TestCase):
         self.t_ion.integratedPeakSignal2 = None
         self.assertEqual(self.t_ion.totalIntegratedSignal, 2.5)
 
+
 class TestMemoryClass(unittest.TestCase):
     
     def setUp(self):
         self.t_mc = MemoryClass()
-        self.test_folder = "C:/Users/wimva/Documents/GitHub/eindproef_data-analyse/test_input/"
+        self.test_folder =  "test_input/"        
         self.t_mc.listExperimentData = []
         self.t_mc.load_from_directory(self.test_folder)
 
     @classmethod
-    def tearDownClass(cls) -> None:
-        
+    def tearDownClass(cls) -> None:        
         return super().tearDownClass()
 
     
     def test_load_from_directory(self):
         self.t_load = MemoryClass()
         self.t_load.load_from_directory(self.test_folder)
-
         self.assertEqual(len(self.t_load.listExperimentData),90)
         self.assertEqual(len(self.t_load.listExperimentData[5].listIonData),316)
         self.assertEqual(self.t_load.listExperimentData[5].listIonData[12].seriesIon[20], 1.1956)
-        
+
     def test_set_all_seriesCPS(self):
         self.t_mc.set_all_seriesCPS()
         self.assertEqual(len(self.t_mc.listExperimentData[5].listIonData[10].seriesIon),
@@ -244,11 +242,13 @@ class TestMemoryClass(unittest.TestCase):
         
         os.remove("Eseries_combined.xlsx")
 
+
+
 class TestExperimentData(unittest.TestCase):
     
     def setUp(self):
-        self.t_ed = ExperimentData()
-        self.test_filename = "C:/Users/wimva/Documents/GitHub/eindproef_data-analyse/test_input/09h46m01s_Gel3_Eseries_4mJ_20micron.h5__SegmentProfiles_Average_ESET-1.txt"
+        self.t_ed = ExperimentData()        
+        self.test_filename = "test_input/09h46m01s_Gel3_Eseries_4mJ_20micron.h5__SegmentProfiles_Average_ESET-1.txt"
         self.t_ed.listIonData = []
 
     
