@@ -148,6 +148,10 @@ class ExperimentData():
     def set_all_seriesCPS(self):
         """sets all seriesCorrectedBackground for all iondatas in listIonData
         """
+        if len(self.listIonData) == 0:
+            raise ValueError("no iondata loaded in experimentdata!")
+        if self.listIonData[0].seriesIon is None or len(self.listIonData[0].seriesIon) == 0:
+            raise ValueError("no iondata loaded in seriesIon!")
         for Iondata in self.listIonData:
             Iondata.set_seriesCPS()
         self._cps_set = True

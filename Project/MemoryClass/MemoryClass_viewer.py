@@ -207,7 +207,7 @@ class MemoryClassViewer():
                         #insert second graph
                         worksheet.insert_chart('H30', chart_log)
             except Exception as e:
-                print("error in creating excel: {e}")   
+                print(f"error in creating excel: {e}")   
                      
 
         #create the workbook with close() method    
